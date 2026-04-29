@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iconic Live Couture – Limited Drops. Real Moments.</title>
+<script src="https://js.stripe.com/v3/"></script>
+<meta name="description" content="Limited Edition Music Streetwear aus Berlin. Jedes Piece nur 21x. The Prodigy, Linkin Park, Lady Gaga, Taylor Swift & mehr.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0eb;
+    --red: #e8002d;
+    --gold: #c9a84c;
+    --grey: #1a1a1a;
+    --mid: #2a2a2a;
+    --text-muted: #888;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .ann-bar {
+    background: var(--red);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    font-weight: 500;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid #1e1e1e;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .nav-logo span { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cart {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid #333;
+    color: var(--white);
+    padding: 8px 20px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+  .nav-cart:hover { border-color: var(--white); background: var(--white); color: var(--black); }
+  .cart-count {
+    background: var(--red);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 100px 48px 80px;
+    min-height: 520px;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 40%, #0a0a0a 100%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,0,45,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 680px; }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 9vw, 120px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+  }
+  h1 .accent { color: var(--red); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 440px;
+    margin-bottom: 36px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    color: var(--black);
+    padding: 16px 36px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.25s;
+  }
+  .hero-cta:hover { background: var(--red); color: var(--white); }
+  .hero-cta svg { transition: transform 0.25s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-stats {
+    position: absolute;
+    right: 48px;
+    bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: right;
+    z-index: 2;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--white);
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 64px 48px 40px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.05em;
+  }
+  .section-sub { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 0 48px 32px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    border: 1px solid #2a2a2a;
+    background: none;
+    color: var(--text-muted);
+    padding: 8px 20px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--white); color: var(--white); background: #111; }
+  .filter-btn.active { background: var(--white); color: var(--black); border-color: var(--white); }
+
+  /* ── PRODUCT GRID ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    padding: 0 48px 80px;
+  }
+
+  .product-card {
+    position: relative;
+    background: var(--grey);
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    transition: transform 0.3s;
+  }
+  .product-card:hover { z-index: 2; }
+  .product-card:hover .card-img { transform: scale(1.05); }
+  .product-card:hover .card-overlay { opacity: 1; }
+  .product-card:hover .card-actions { transform: translateY(0); }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+    background: #111;
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--red);
+    color: white;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    font-weight: 500;
+  }
+
+  .card-limited {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #333;
+    color: var(--text-muted);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    z-index: 2;
+  }
+  .card-artist {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .card-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gold);
+  }
+  .card-type {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .card-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .btn-atc {
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    padding: 14px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.2s;
+    width: 100%;
+  }
+  .btn-atc:hover { background: var(--red); color: white; }
+
+  .btn-view {
+    background: rgba(0,0,0,0.8);
+    color: var(--text-muted);
+    border: none;
+    padding: 10px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+    width: 100%;
+  }
+  .btn-view:hover { color: var(--white); }
+
+  /* ── BANNER STRIP ── */
+  .banner-strip {
+    border-top: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+    overflow: hidden;
+    padding: 18px 0;
+    background: #111;
+    position: relative;
+  }
+  .banner-scroll {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite;
+    width: max-content;
+  }
+  .banner-strip:hover .banner-scroll { animation-play-state: paused; }
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .banner-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+  .banner-item::after {
+    content: '✦';
+    color: var(--red);
+    font-size: 10px;
+  }
+
+  /* ── ABOUT STRIP ── */
+  .about-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+    border-top: 1px solid #1e1e1e;
+  }
+  .about-left {
+    padding: 80px 48px;
+    border-right: 1px solid #1e1e1e;
+  }
+  .about-right {
+    padding: 80px 48px;
+    background: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+  }
+  .about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 0.95;
+    margin-bottom: 24px;
+  }
+  .about-text { font-size: 14px; line-height: 1.8; color: var(--text-muted); max-width: 440px; }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .feature-item:last-child { border-bottom: none; }
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--red);
+  }
+  .feature-label {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .feature-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050505;
+    border-top: 1px solid #1e1e1e;
+    padding: 60px 48px 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-tagline { font-size: 12px; color: var(--text-muted); line-height: 1.6; max-width: 300px; }
+  .footer-col-title {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a {
+    color: #555;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid #1e1e1e;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(8px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--grey);
+    max-width: 900px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    border: 1px solid #2a2a2a;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-img-wrap {
+    position: relative;
+    background: #111;
+    overflow: hidden;
+  }
+  .modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .modal-thumbs {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+  }
+  .modal-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 1px solid transparent;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.2s;
+  }
+  .modal-thumb.active, .modal-thumb:hover { border-color: var(--white); opacity: 1; }
+
+  .modal-body {
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .modal-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    margin-bottom: 20px;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--white); }
+  .modal-artist {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .modal-price {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .modal-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    flex: 1;
+  }
+
+  .size-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .size-grid {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .size-btn {
+    border: 1px solid #333;
+    background: none;
+    color: var(--white);
+    padding: 8px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .size-btn:hover, .size-btn.active { border-color: var(--white); background: var(--white); color: var(--black); }
+
+  .modal-atc {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.2s;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .modal-atc:hover { background: #c0001f; }
+
+  .modal-limited-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+  .modal-limited-note span { color: var(--red); }
+
+  /* ── CART SIDEBAR ── */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 380px;
+    background: #111;
+    border-left: 1px solid #2a2a2a;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .cart-overlay.open .cart-sidebar { transform: translateX(0); }
+
+  .cart-head {
+    padding: 28px;
+    border-bottom: 1px solid #1e1e1e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-head-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+  }
+  .cart-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+  .cart-empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #1e1e1e;
+    align-items: center;
+  }
+  .cart-item-img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    background: #1a1a1a;
+  }
+  .cart-item-name { font-size: 13px; font-weight: 400; margin-bottom: 4px; line-height: 1.3; }
+  .cart-item-size { font-size: 11px; color: var(--text-muted); }
+  .cart-item-price { font-size: 14px; color: var(--gold); font-weight: 500; }
+  .cart-item-remove {
+    background: none;
+    border: none;
+    color: #444;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: start;
+    transition: color 0.2s;
+    display: block;
+    margin-top: 2px;
+  }
+  .cart-item-remove:hover { color: var(--red); }
+
+  .cart-footer {
+    border-top: 1px solid #1e1e1e;
+    padding: 24px 28px;
+  }
+  .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .cart-total-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .cart-total-amount { font-size: 22px; font-weight: 500; color: var(--gold); }
+
+  .btn-checkout {
+    width: 100%;
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 18px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn-checkout:hover { background: #c0001f; }
+  .btn-checkout:disabled { background: #333; cursor: not-allowed; color: #666; }
+
+  .stripe-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── CHECKOUT FLOW ── */
+  .checkout-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 500;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .checkout-overlay.open { opacity: 1; pointer-events: all; }
+
+  .checkout-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+  .checkout-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    margin-bottom: 48px;
+    letter-spacing: 0.05em;
+  }
+  .checkout-header span { color: var(--red); }
+
+  .checkout-back {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .checkout-back:hover { color: var(--white); }
+
+  .checkout-grid { display: grid; grid-template-columns: 1fr 340px; gap: 48px; }
+  .form-section-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+  .form-grid.full { grid-template-columns: 1fr; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+  .form-input {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    color: var(--white);
+    padding: 12px 14px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-input:focus { border-color: #555; }
+  .form-input::placeholder { color: #444; }
+
+  .order-summary {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    padding: 28px;
+    position: sticky;
+    top: 100px;
+  }
+  .order-summary-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 10px 0;
+    border-bottom: 1px solid #1e1e1e;
+    gap: 12px;
+  }
+  .summary-item-name { color: var(--text-muted); line-height: 1.3; }
+  .summary-item-price { color: var(--white); flex-shrink: 0; }
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 500;
+    padding-top: 16px;
+    color: var(--gold);
+  }
+
+  .payment-section { margin-top: 24px; }
+  .payment-icons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .payment-icon {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    padding: 4px 10px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .stripe-powered {
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 16px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--white);
+    color: var(--black);
+    padding: 14px 28px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    z-index: 9000;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    white-space: nowrap;
+    border-left: 4px solid var(--red);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 20px 50px; }
+    .hero-stats { display: none; }
+    .section-header { padding: 40px 20px 24px; }
+    .filter-bar { padding: 0 20px 20px; }
+    .product-grid { padding: 0 20px 60px; grid-template-columns: repeat(2, 1fr); }
+    .about-strip { grid-template-columns: 1fr; }
+    .about-left, .about-right { padding: 48px 20px; }
+    footer { grid-template-columns: 1fr; gap: 32px; padding: 40px 20px; }
+    .footer-bottom { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+    .modal { grid-template-columns: 1fr; max-height: 95vh; }
+    .modal-img-wrap { height: 300px; }
+    .checkout-grid { grid-template-columns: 1fr; }
+    .cart-sidebar { width: 100%; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .product-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+    h1 { font-size: 56px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+  .fade-up-2 { animation: fadeUp 0.6s 0.1s ease both; }
+  .fade-up-3 { animation: fadeUp 0.6s 0.2s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">⚡ Nur 21 Stück pro Drop – Wenn weg, dann weg. ⚡</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Iconic<span>.</span>Live<span>.</span>Couture</a>
+  <ul class="nav-links">
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">Brand</a></li>
+    <li><a href="#about">Drops</a></li>
+    <li><a href="mailto:info@iconiclivecouture.com">Kontakt</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    Warenkorb
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag fade-up">Berlin Streetwear</div>
+    <h1 class="fade-up-2">Iconic<br><span class="accent">Live</span><br>Couture</h1>
+    <p class="hero-sub fade-up-3">Limited Edition Music Streetwear. Jedes Piece erzählt einen echten Live-Moment. Jedes Drop nur 21 Stück. No restock.</p>
+    <a href="#shop" class="hero-cta fade-up-3">
+      Jetzt shoppen
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">21</div>
+      <div class="stat-label">Pieces per Drop</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Baumwolle</div>
+    </div>
+    <div>
+      <div class="stat-num">BLN</div>
+      <div class="stat-label">Origin</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLLING BANNER -->
+<div class="banner-strip">
+  <div class="banner-scroll" id="bannerScroll">
+    <span class="banner-item">The Prodigy</span>
+    <span class="banner-item">Linkin Park</span>
+    <span class="banner-item">Lady Gaga</span>
+    <span class="banner-item">Taylor Swift</span>
+    <span class="banner-item">Limp Bizkit</span>
+    <span class="banner-item">Ski Aggu</span>
+    <span class="banner-item">Ikkimel</span>
+    <span class="banner-item">Berlin Drop</span>
+    <span class="banner-item">Limited 21x</span>
+    <span class="banner-item">The Prodigy</span>
+    <span class="banner-item">Linkin Park</span>
+    <span class="banner-item">Lady Gaga</span>
+    <span class="banner-item">Taylor Swift</span>
+    <span class="banner-item">Limp Bizkit</span>
+    <span class="banner-item">Ski Aggu</span>
+    <span class="banner-item">Ikkimel</span>
+    <span class="banner-item">Berlin Drop</span>
+    <span class="banner-item">Limited 21x</span>
+  </div>
+</div>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-header">
+    <div>
+      <div class="section-sub">Aktuelle Drops</div>
+      <h2 class="section-title">Collection</h2>
+    </div>
+    <div class="section-sub" id="productCount">10 Pieces</div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProducts('all', this)">Alle</button>
+    <button class="filter-btn" onclick="filterProducts('T-Shirt', this)">T-Shirts – 25€</button>
+    <button class="filter-btn" onclick="filterProducts('Hoodie', this)">Hoodies – 45€</button>
+    <button class="filter-btn" onclick="filterProducts('rock', this)">Rock / Metal</button>
+    <button class="filter-btn" onclick="filterProducts('rap', this)">Rap / Pop</button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-strip">
+    <div class="about-left">
+      <div class="section-sub" style="margin-bottom:16px">Über uns</div>
+      <div class="about-title">Musik.<br><span style="color:var(--red)">Moment.</span><br>Merch.</div>
+      <p class="about-text">Iconic Live Couture ist eine Berliner Streetwear-Brand, die ikonische Live-Momente aus der Musik in tragbare Kunst verwandelt. Jedes Stück ist limitiert auf 21 Pieces – handselektiert, emotional, einzigartig.</p>
+    </div>
+    <div class="about-right">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="feature-label">Streng limitiert</div>
+          <div class="feature-desc">Nur 21 Stück pro Drop. Kein Restock. Kein Kompromiss.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="feature-label">Schneller Versand</div>
+          <div class="feature-desc">Versand innerhalb von 2–4 Werktagen. EU-weit.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div>
+          <div class="feature-label">100% Baumwolle</div>
+          <div class="feature-desc">Hochwertige Unisex-Qualität. Comfort trifft Attitude.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <div class="feature-label">Sicheres Bezahlen</div>
+          <div class="feature-desc">Bezahle per Kreditkarte, PayPal oder Sofortüberweisung.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Iconic<span>.</span>Live<span>.</span>Couture</div>
+    <p class="footer-tagline">Berliner Streetwear für alle, die Musik nicht nur hören – sondern fühlen. Limitiert. Ikonisch. Eternal.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Shop</div>
+    <ul class="footer-links">
+      <li><a href="#shop">Alle Produkte</a></li>
+      <li><a href="#shop">T-Shirts</a></li>
+      <li><a href="#shop">Hoodies</a></li>
+      <li><a href="#about">Über ILC</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Info</div>
+    <ul class="footer-links">
+      <li><a href="#">Versand & Rückgabe</a></li>
+      <li><a href="#">Datenschutz</a></li>
+      <li><a href="#">Impressum</a></li>
+      <li><a href="mailto:info@iconiclivecouture.com">Kontakt</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2025 Iconic Live Couture. Berlin.</span>
+  <span>Handmade with 🖤 – Limited 21x per Drop</span>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-img-wrap">
+      <img class="modal-img" id="modalMainImg" src="" alt="">
+      <div class="modal-thumbs" id="modalThumbs"></div>
+    </div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <div class="modal-artist" id="modalArtist"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="size-label">Größe wählen</div>
+      <div class="size-grid" id="modalSizes"></div>
+      <button class="modal-atc" id="modalAtcBtn" onclick="addToCartFromModal()">In den Warenkorb</button>
+      <div class="modal-limited-note">⚡ Nur <span>21</span> Stück – Limitierter Drop</div>
+    </div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="handleCartOverlayClick(event)">
+  <div class="cart-sidebar">
+    <div class="cart-head">
+      <div class="cart-head-title">Warenkorb</div>
+      <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛍</div>
+        Dein Warenkorb ist leer.
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <div class="cart-total-label">Gesamt</div>
+        <div class="cart-total-amount" id="cartTotal">€0,00</div>
+      </div>
+      <button class="btn-checkout" id="checkoutBtn" onclick="openCheckout()" disabled>Zur Kasse →</button>
+      <div class="stripe-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Sichere Zahlung via Stripe
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-inner">
+    <button class="checkout-back" onclick="closeCheckout()">← Zurück zum Warenkorb</button>
+    <div class="checkout-header">Kasse <span>✦</span></div>
+    <div class="checkout-grid">
+      <div>
+        <div class="form-section-title">Kontakt</div>
+        <div class="form-grid full">
+          <div class="form-group">
+            <label class="form-label">E-Mail für Bestellbestätigung</label>
+            <input class="form-input" type="email" placeholder="max@mail.de" id="email">
+          </div>
+        </div>
+        <div class="form-section-title payment-section">Zahlung & Lieferung</div>
+        <div class="payment-icons">
+          <div class="payment-icon">VISA</div>
+          <div class="payment-icon">Mastercard</div>
+          <div class="payment-icon">PayPal</div>
+          <div class="payment-icon">Apple Pay</div>
+          <div class="payment-icon">SOFORT</div>
+        </div>
+        <p style="font-size:13px;color:#888;line-height:1.6;margin-bottom:20px;">
+          Nach dem Klick wirst du zu <strong style="color:#f5f0eb">Stripe</strong> weitergeleitet. Dort gibst du sicher deine Zahlungs- und Lieferdaten ein. Stripe ist PCI-DSS-zertifiziert – deine Daten sind vollständig geschützt.
+        </p>
+        <button class="btn-checkout" style="margin-top:8px" onclick="processCheckout()">Weiter zu Stripe → <span id="checkoutTotal">€0</span></button>
+      </div>
+      <div>
+        <div class="order-summary">
+          <div class="order-summary-title">Bestellübersicht</div>
+          <div id="summaryItems"></div>
+          <div class="summary-total">
+            <span>Gesamt</span>
+            <span id="summaryTotal">€0,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  {
+    id: 1,
+    artist: "The Prodigy",
+    name: '"Keith live 4ever" T-Shirt',
+    shortName: "Keith live 4ever",
+    type: "T-Shirt",
+    tags: ["rock"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/ca8147/8009707981/il_fullxfull.8009707981_3b5s.jpg",
+      "https://i.etsystatic.com/65183664/r/il/b87b5b/8009706291/il_fullxfull.8009706291_3laj.jpg",
+      "https://i.etsystatic.com/65183664/r/il/9bb85c/7961753210/il_fullxfull.7961753210_4hu7.jpg"
+    ],
+    desc: "We live forever. 🔥🖤\n\nAls Keith ging, fühlte es sich an, als würde etwas Unersetzbares verschwinden. Doch auf der Bühne lebt diese Energie weiter – roh, laut, unsterblich. ⚡️\n\nDieses Shirt ist unsere Hommage an The Prodigy. An Keith Flint. An Maxim. An Liam. An den Sound, der alles zerreißt.\n\nIconic. Emotional. Eternal.\n\nUnisex Fit. Streng limitiert auf nur 21 Pieces.",
+    badge: "NEU"
+  },
+  {
+    id: 2,
+    artist: "Linkin Park",
+    name: '"2Souls" T-Shirt',
+    shortName: "2Souls",
+    type: "T-Shirt",
+    tags: ["rock"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/f3a8fa/7947486434/il_fullxfull.7947486434_7qlo.jpg",
+      "https://i.etsystatic.com/65183664/r/il/fd4f02/7947481134/il_fullxfull.7947481134_6l29.jpg",
+      "https://i.etsystatic.com/65183664/r/il/2c5994/7947481136/il_fullxfull.7947481136_2pc1.jpg",
+      "https://i.etsystatic.com/65183664/r/il/a0274e/7995437579/il_fullxfull.7995437579_bdtd.jpg"
+    ],
+    desc: "Dieses Shirt ist mehr als nur ein Design – es ist ein Gefühl.\nEine Hommage an Linkin Park, an Vergangenheit & Gegenwart.\nChester. Emily. Zwei Welten, ein Sound. 🎤⚡️\n\nRaw. Emotional. Iconic.\n\nUnisex Fit. Streng limitiert auf nur 21 Pieces.",
+    badge: "NEU"
+  },
+  {
+    id: 3,
+    artist: "Ikkimel",
+    name: '"F@ck" T-Shirt',
+    shortName: "F@ck Oversize",
+    type: "T-Shirt",
+    tags: ["rap"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/7b983c/7945456261/il_fullxfull.7945456261_ca3y.jpg",
+      "https://i.etsystatic.com/65183664/r/il/f619bd/7945455259/il_fullxfull.7945455259_82c8.jpg",
+      "https://i.etsystatic.com/65183664/r/il/dfd6fd/7945455743/il_fullxfull.7945455743_nhp5.jpg"
+    ],
+    desc: "Loud. Raw. No apologies. 🖤🔥\n\nDieses Oversize Unisex Tee bringt einen kompromisslosen Ikkimel Live-Moment direkt auf die Straße. ⚡️\nAttitude pur – genau so, wie es sein soll.\n\nStatement-Piece, das nicht fragt, sondern sagt. 💥\n\nStreng limitiert auf nur 21 Pieces.",
+    badge: null
+  },
+  {
+    id: 4,
+    artist: "Ski Aggu",
+    name: '"Toxic Scream" T-Shirt',
+    shortName: "Toxic Scream",
+    type: "T-Shirt",
+    tags: ["rap"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/ff63bd/7945446661/il_fullxfull.7945446661_m72f.jpg",
+      "https://i.etsystatic.com/65183664/r/il/9f715f/7945406967/il_fullxfull.7945406967_53o9.jpg",
+      "https://i.etsystatic.com/65183664/r/il/a36b8e/7945406961/il_fullxfull.7945406961_cj2s.jpg"
+    ],
+    desc: "Unser \"Toxic Scream\" Unisex Tee schreit nach Aufmerksamkeit – genau wie Ski Aggu.\n\nToxic neon grün, das dir direkt ins Auge springt.\nVeredelt mit ikonischen Live-Momenten. 🎤🔥\n\nLaut. Wild. Berlin.\n\nStreng limitiert auf nur 21 Pieces.",
+    badge: "LIMITED"
+  },
+  {
+    id: 5,
+    artist: "Ikkimel",
+    name: '"F@ck" T-Shirt – Drop 2',
+    shortName: "F@ck Drop 2",
+    type: "T-Shirt",
+    tags: ["rap"],
+    price: 25,
+    sizes: ["XS","S","M","L","XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/2090ae/7911531707/il_fullxfull.7911531707_armn.jpg",
+      "https://i.etsystatic.com/65183664/r/il/cf5ba1/7911530107/il_fullxfull.7911530107_ax8m.jpg",
+      "https://i.etsystatic.com/65183664/r/il/571936/7942980261/il_fullxfull.7942980261_i4c9.jpg"
+    ],
+    desc: "Loud. Raw. No apologies. 🖤🔥\n\nDie zweite Ikkimel-Edition – gleiche Attitude, neue Colorway.\nOversize Unisex Tee. Statement-Piece. Kompromisslos.\n\nStreng limitiert auf nur 21 Pieces.",
+    badge: null
+  },
+  {
+    id: 6,
+    artist: "Limp Bizkit",
+    name: '"Drone Killer" Manga T-Shirt',
+    shortName: "Drone Killer Tee",
+    type: "T-Shirt",
+    tags: ["rock"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/496991/7947536266/il_fullxfull.7947536266_mre4.jpg",
+      "https://i.etsystatic.com/65183664/r/il/74793c/7935615117/il_fullxfull.7935615117_9fe9.jpg",
+      "https://i.etsystatic.com/65183664/r/il/866baa/7887656442/il_fullxfull.7887656442_ex5a.jpg"
+    ],
+    desc: "Break Stuff Drone Killer – als Comic. 💥🖤\n\nDieses Shirt im Manga-Style erzählt eine ganze Story:\nDer legendäre Moment, als Fred Durst live eine Drone aus der Luft holt. 🚁⚡️\n\nRaw. Laut. Ikonisch. Genau so, wie Limp Bizkit eben ist.\n\nStreng limitiert auf nur 21 Pieces.",
+    badge: "MANGA"
+  },
+  {
+    id: 7,
+    artist: "Limp Bizkit",
+    name: '"Drone Killer" Manga Hoodie',
+    shortName: "Drone Killer Hoodie",
+    type: "Hoodie",
+    tags: ["rock"],
+    price: 45,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/7c680a/7897487264/il_fullxfull.7897487264_4wby.jpg",
+      "https://i.etsystatic.com/65183664/r/il/c491bd/7887493842/il_fullxfull.7887493842_70zy.jpg",
+      "https://i.etsystatic.com/65183664/r/il/cdfc38/7935125295/il_fullxfull.7935125295_i9fa.jpg"
+    ],
+    desc: "Break Stuff. Drone Killer. Still iconic. 💥🖤\n\nUnser Hoodie im Manga-Style fängt einen legendären Limp Bizkit Moment ein:\nFred Durst vs. Drone – live, wild, unvergesslich. 🚁⚡️\n\nUnisex Fit, cozy & in deiner Wunschgröße. Limitiert auf nur 21 Pieces.",
+    badge: "MANGA"
+  },
+  {
+    id: 8,
+    artist: "Taylor Swift",
+    name: '"Velvet" Hoodie',
+    shortName: "Velvet",
+    type: "Hoodie",
+    tags: ["rap"],
+    price: 45,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/439204/7853666122/il_fullxfull.7853666122_e6d8.jpg",
+      "https://i.etsystatic.com/65183664/r/il/ba772e/7853664014/il_fullxfull.7853664014_tvqs.jpg",
+      "https://i.etsystatic.com/65183664/r/il/fc1fa3/7853665112/il_fullxfull.7853665112_3veq.jpg"
+    ],
+    desc: "Velvet vibes. ✨🖤\n\nUnser „Velvet" Hoodie bringt einen ikonischen Taylor Swift Live-Moment direkt in deinen Alltag. 🎤💫\nSoft, cozy & gemacht für alle, die Musik fühlen – nicht nur hören.\n\nUnisex Fit. Streng limitiert auf nur 21 Pieces.",
+    badge: "NEU"
+  },
+  {
+    id: 9,
+    artist: "Lady Gaga",
+    name: '"Passion" T-Shirt',
+    shortName: "Passion",
+    type: "T-Shirt",
+    tags: ["rap"],
+    price: 25,
+    sizes: ["S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/c06b47/7853637396/il_fullxfull.7853637396_q0qv.jpg",
+      "https://i.etsystatic.com/65183664/r/il/693e57/7901596731/il_fullxfull.7901596731_ccst.jpg",
+      "https://i.etsystatic.com/65183664/r/il/5d8d4e/7853636586/il_fullxfull.7853636586_rppt.jpg"
+    ],
+    desc: "Unisex und Oversize Shirt mit einem absolut ikonischen Live Moment von Lady Gaga. Einzigartig und limitiert auf 21 Stück.",
+    badge: null
+  },
+  {
+    id: 10,
+    artist: "Lady Gaga",
+    name: '"Lightstorm" Hoodie',
+    shortName: "Lightstorm",
+    type: "Hoodie",
+    tags: ["rap"],
+    price: 45,
+    sizes: ["XS","S","M","L","XL","2XL"],
+    images: [
+      "https://i.etsystatic.com/65183664/r/il/2b428c/7853552038/il_fullxfull.7853552038_6843.jpg",
+      "https://i.etsystatic.com/65183664/r/il/60b47e/7853549096/il_fullxfull.7853549096_n6y0.jpg",
+      "https://i.etsystatic.com/65183664/r/il/3da4ab/7901511411/il_fullxfull.7901511411_p8u4.jpg"
+    ],
+    desc: "Unser \"Lightstorm\" Hoodie bringt einen unvergesslichen Lady Gaga Live-Moment direkt auf dein Outfit. 🎤✨\n\nFür alle, die Musik nicht nur hören – sondern fühlen.\n\nUnisex Fit, super bequem & gemacht für echte Fans. Streng limitiert auf nur 21 Pieces.",
+    badge: null
+  }
+];
+
+let cart = [];
+let currentFilter = 'all';
+let currentProduct = null;
+let selectedSize = null;
+
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('productGrid');
+  const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => {
+    if (filter === 'T-Shirt') return p.type === 'T-Shirt';
+    if (filter === 'Hoodie') return p.type === 'Hoodie';
+    if (filter === 'rock') return p.tags.includes('rock');
+    if (filter === 'rap') return p.tags.includes('rap');
+    return true;
+  });
+
+  document.getElementById('productCount').textContent = filtered.length + ' Pieces';
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" onclick="openModal(${p.id})">
+      <img class="card-img" src="${p.images[0]}" alt="${p.artist} ${p.name}" loading="lazy">
+      ${p.badge ? `<div class="card-badge">${p.badge}</div>` : ''}
+      <div class="card-limited">21x</div>
+      <div class="card-overlay"></div>
+      <div class="card-info">
+        <div class="card-artist">${p.artist}</div>
+        <div class="card-name">${p.shortName}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="card-price">€${p.price}</div>
+          <div class="card-type">${p.type}</div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-atc" onclick="event.stopPropagation(); quickAdd(${p.id})">+ Warenkorb</button>
+        <button class="btn-view" onclick="event.stopPropagation(); openModal(${p.id})">Details ansehen</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(tag, btn) {
+  currentFilter = tag;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(tag);
+}
+
+function quickAdd(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  addToCart(p, p.sizes[0]);
+}
+
+function openModal(id) {
+  currentProduct = PRODUCTS.find(p => p.id === id);
+  selectedSize = null;
+
+  document.getElementById('modalArtist').textContent = currentProduct.artist;
+  document.getElementById('modalTitle').textContent = currentProduct.name;
+  document.getElementById('modalPrice').textContent = `€${currentProduct.price}`;
+  document.getElementById('modalDesc').textContent = currentProduct.desc;
+  document.getElementById('modalMainImg').src = currentProduct.images[0];
+
+  const thumbs = document.getElementById('modalThumbs');
+  thumbs.innerHTML = currentProduct.images.map((img, i) => `
+    <img class="modal-thumb ${i===0?'active':''}" src="${img}" onclick="switchImg('${img}', this)" alt="">
+  `).join('');
+
+  const sizes = document.getElementById('modalSizes');
+  sizes.innerHTML = currentProduct.sizes.map(s => `
+    <button class="size-btn" onclick="selectSize('${s}', this)">${s}</button>
+  `).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function switchImg(src, el) {
+  document.getElementById('modalMainImg').src = src;
+  document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function selectSize(size, btn) {
+  selectedSize = size;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function addToCartFromModal() {
+  if (!selectedSize) {
+    showToast('Bitte wähle eine Größe');
+    return;
+  }
+  addToCart(currentProduct, selectedSize);
+  closeModalDirect();
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function addToCart(product, size) {
+  const existing = cart.find(i => i.id === product.id && i.size === size);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...product, size, qty: 1 });
+  }
+  updateCartUI();
+  showToast(`${product.shortName} (${size}) hinzugefügt!`);
+}
+
+function removeFromCart(id, size) {
+  cart = cart.filter(i => !(i.id === id && i.size === size));
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const formatted = '€' + total.toFixed(2).replace('.', ',');
+  document.getElementById('cartTotal').textContent = formatted;
+  document.getElementById('summaryTotal').textContent = formatted;
+  document.getElementById('checkoutTotal').textContent = formatted;
+
+  const btn = document.getElementById('checkoutBtn');
+  btn.disabled = cart.length === 0;
+
+  const items = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    items.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛍</div>Dein Warenkorb ist leer.</div>`;
+    return;
+  }
+  items.innerHTML = cart.map(i => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="${i.images[0]}" alt="${i.name}">
+      <div>
+        <div class="cart-item-name">${i.artist} – ${i.shortName}</div>
+        <div class="cart-item-size">Größe: ${i.size}${i.qty > 1 ? ` × ${i.qty}` : ''}</div>
+      </div>
+      <div>
+        <div class="cart-item-price">€${(i.price * i.qty).toFixed(2).replace('.', ',')}</div>
+        <button class="cart-item-remove" onclick="removeFromCart(${i.id}, '${i.size}')">×</button>
+      </div>
+    </div>
+  `).join('');
+
+  const summaryItems = document.getElementById('summaryItems');
+  summaryItems.innerHTML = cart.map(i => `
+    <div class="summary-item">
+      <span class="summary-item-name">${i.artist} – ${i.shortName} (${i.size})</span>
+      <span class="summary-item-price">€${(i.price * i.qty).toFixed(2).replace('.', ',')}</span>
+    </div>
+  `).join('');
+}
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('cartOverlay').classList.contains('open') ? 'hidden' : '';
+}
+
+function handleCartOverlayClick(e) {
+  if (e.target === document.getElementById('cartOverlay')) toggleCart();
+}
+
+function openCheckout() {
+  toggleCart();
+  document.getElementById('checkoutOverlay').classList.add('open');
+  window.scrollTo(0, 0);
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('open');
+  toggleCart();
+}
+
+async function processCheckout() {
+  const em = document.getElementById('email').value;
+  if (!em || !em.includes('@')) {
+    showToast('Bitte gültige E-Mail eingeben');
+    return;
+  }
+  if (cart.length === 0) return;
+
+  const btn = document.querySelector('.checkout-overlay .btn-checkout');
+  const orig = btn.textContent;
+  btn.textContent = '⏳ Weiterleitung zu Stripe...';
+  btn.disabled = true;
+
+  try {
+    const items = cart.map(i => ({
+      artist: i.artist,
+      name: i.name,
+      shortName: i.shortName,
+      size: i.size,
+      type: i.type,
+      price: i.price,
+      qty: i.qty,
+      image: i.images[0],
+    }));
+
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items, customerEmail: em }),
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Unbekannter Fehler');
+    }
+  } catch (err) {
+    showToast('Fehler: ' + err.message);
+    btn.textContent = orig;
+    btn.disabled = false;
+  }
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(.{4})/g, '$1 ').trim();
+}
+
+function formatExp(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2);
+  el.value = v;
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Init
+renderProducts();
+</script>
+</body>
+</html>

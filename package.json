@@ -1,0 +1,11 @@
+{
+  "name": "iconic-live-couture-shop",
+  "version": "1.0.0",
+  "description": "Iconic Live Couture – Official Webshop",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

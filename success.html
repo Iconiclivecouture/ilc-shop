@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestellung erfolgreich – Iconic Live Couture</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0a0a0a; --white:#f5f0eb; --red:#e8002d; --gold:#c9a84c; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; text-align:center; }
+  .icon { font-size:64px; margin-bottom:24px; animation: pop 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+  @keyframes pop { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(48px,8vw,80px); letter-spacing:0.04em; margin-bottom:16px; }
+  h1 span { color:var(--red); }
+  p { color:#888; font-size:15px; line-height:1.7; max-width:440px; margin-bottom:32px; }
+  .order-id { background:#111; border:1px solid #2a2a2a; padding:12px 24px; font-size:12px; letter-spacing:0.15em; color:#666; margin-bottom:40px; }
+  .btn { display:inline-block; background:var(--white); color:var(--black); padding:16px 40px; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; font-weight:500; transition:all 0.2s; }
+  .btn:hover { background:var(--red); color:var(--white); }
+  .note { font-size:12px; color:#444; margin-top:24px; letter-spacing:0.08em; }
+</style>
+</head>
+<body>
+  <div class="icon">🖤</div>
+  <h1>Danke für<br>deinen <span>Drop</span></h1>
+  <p>Deine Bestellung ist eingegangen und wird so schnell wie möglich bearbeitet. Du erhältst in Kürze eine Bestätigungsmail.</p>
+  <div class="order-id" id="orderId">Bestellnummer wird geladen...</div>
+  <a href="/" class="btn">Zurück zum Shop</a>
+  <div class="note">⚡ Iconic Live Couture – Berlin</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    if (sessionId) {
+      document.getElementById('orderId').textContent = 'Session: ' + sessionId.substring(0, 24) + '...';
+    } else {
+      document.getElementById('orderId').textContent = 'Bestellung erfolgreich verarbeitet';
+    }
+  </script>
+</body>
+</html>
